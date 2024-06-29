@@ -5,9 +5,9 @@ import com.magaza.dukkan.service.PersonelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 
@@ -48,8 +48,8 @@ public class PersonelController {
 
 
     @GetMapping("/searchPersonel")
-    public ResponseEntity<?> searchPersonel(@RequestParam String adSoyad) {
-        List<Personel> personels = personelService.searchByAdSoyad(adSoyad);
+    public ResponseEntity<?> searchPersonel(Pageable pageable, @RequestParam String adSoyad) {
+        List<Personel> personels = personelService.searchByAdSoyadStartingWith(pageable,adSoyad);
 
         if (personels == null || personels.isEmpty()) {
             return ResponseEntity.notFound().build();

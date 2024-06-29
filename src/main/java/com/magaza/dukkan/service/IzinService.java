@@ -5,14 +5,15 @@ import com.magaza.dukkan.model.Personel;
 import com.magaza.dukkan.repository.IzinRepository;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.io.Console;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Service
@@ -28,18 +29,26 @@ public class IzinService {
         this.personelService = personelService;
     }
 
-    public Izin create(Izin izin) {
+    public ResponseEntity<?> create(Izin izin) {
         Personel personel = personelService.getPersonel(izin.getPersonelId());
 
 
         final long yillikIzin = 15L;
         if(izin.getIzinTuru().equals("Yıllık İzin")){
             long tempYillikİzin = personel.getYillikIzin() + izin.getIzinGun();
-            if(tempYillikİzin>yillikIzin)
-                return  null;//izin oluştutulamadi dmek. yillik izin yetersiz oldugu icin
+            if(tempYillikİzin>yillikIzin){
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("message", "İzin sayınız yetersiz. Kullanılan yıllık izin: " + yillikIzin);
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+            }
             else{
                 personel.setYillikIzin(tempYillikİzin);
             }
+        } else if (izin.getIzinTuru().equals("Fazla Mesai")) {
+                personel.setFazlaMesai(personel.getFazlaMesai()+izin.getIzinSaat());;
+        }
+        else {
+            personel.setMazeretIzin(personel.getMazeretIzin() + izin.getIzinGun() );
         }
         Izin newIzin = new Izin();
         newIzin.setSebep(izin.getSebep());
@@ -51,7 +60,10 @@ public class IzinService {
         newIzin.setIzinGun(izin.getIzinGun());
         newIzin.setIzinSaat(izin.getIzinSaat());
 
-        return izinRepository.save(newIzin);
+
+        Izin savedIzin = izinRepository.save(newIzin);
+        return ResponseEntity.ok(savedIzin);
+
     }
 
     public Izin getIzinById(Long id) {

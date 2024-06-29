@@ -36,7 +36,6 @@ public class PersonelService {
         personel1.setAdi(personel.getAdi());
         personel1.setAdres(personel.getAdres());
         personel1.setFazlaMesai(personel.getFazlaMesai());
-        personel1.setIsCikisTarihi(personel.getIsCikisTarihi());
         personel1.setIsGirisTarihi((personel.getIsGirisTarihi()));
         personel1.setMazeretIzin(personel.getMazeretIzin());
         personel1.setMail(personel.getMail());
@@ -84,8 +83,8 @@ public class PersonelService {
         return personelRepository.findAll();
     }
 
-    public List<Personel> searchByAdSoyad(String adSoyad) {
-        return personelRepository.findByAdSoyadContainingIgnoreCase(adSoyad);
+    public List<Personel> searchByAdSoyadStartingWith(Pageable pageable, String adSoyad) {
+        return personelRepository.findByAdSoyadStartingWithIgnoreCase(pageable,adSoyad);
     }
 }
 

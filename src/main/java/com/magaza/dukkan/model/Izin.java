@@ -1,7 +1,6 @@
 package com.magaza.dukkan.model;
 
 import jakarta.persistence.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
 @Entity

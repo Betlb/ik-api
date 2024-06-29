@@ -34,11 +34,9 @@ public class Personel {
     @Column(name = "is_giris_tarihi")
     private Date isGirisTarihi;
 
-    @Column(name = "is_cikis_tarihi")
-    private Date isCikisTarihi;
-
     @Column(name = "mazeret_izin")
     private  Long mazeretIzin;
+
 
     @Column(name = "yillik_izin")
     private  Long yillikIzin;
@@ -120,14 +118,6 @@ public class Personel {
 
     public void setIsGirisTarihi(Date isGirisTarihi) {
         this.isGirisTarihi = isGirisTarihi;
-    }
-
-    public Date getIsCikisTarihi() {
-        return isCikisTarihi;
-    }
-
-    public void setIsCikisTarihi(Date isCikisTarihi) {
-        this.isCikisTarihi = isCikisTarihi;
     }
 
     public Long getMazeretIzin() {

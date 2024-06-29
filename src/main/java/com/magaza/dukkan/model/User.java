@@ -2,8 +2,6 @@ package com.magaza.dukkan.model;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
-
 @Entity
 @Table(name= "user",schema = "public")
 public class User {

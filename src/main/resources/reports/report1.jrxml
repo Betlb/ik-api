@@ -4,21 +4,20 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="id" class="java.lang.Long"/>
-	<queryString language="SQL">
-		<![CDATA[SELECT  p.adi, p.soyadi, p.tc, p.adres, p.tel,p.cinsiyet,p.mail,p.mazeret_izin,p.yillik_izin,
-i.izin_turu, i.izin_gun,i.izin_saat, i.sebep, i.izni_veren, i.personel_id, i.izin_baslangic_tarihi, i.izin_bitis_tarihi
+	<queryString>
+		<![CDATA[SELECT   p.tc, p.adres, p.tel,p.mail,p.mazeret_izin,p.yillik_izin,p.ad_soyad,
+i.izin_turu, i.izin_gun,i.izin_saat, i.sebep, i.izin_turu, i.izni_veren, i.personel_id, i.izin_baslangic_tarihi, i.izin_bitis_tarihi
 FROM public."personel" p
 JOIN izin i ON p.id = i.personel_id
 WHERE i.id = $P{id}]]>
 	</queryString>
-	<field name="soyadi" class="java.lang.String"/>
 	<field name="tc" class="java.lang.String"/>
 	<field name="adres" class="java.lang.String"/>
 	<field name="tel" class="java.lang.String"/>
-	<field name="cinsiyet" class="java.lang.String"/>
 	<field name="mail" class="java.lang.String"/>
 	<field name="mazeret_izin" class="java.lang.Long"/>
 	<field name="yillik_izin" class="java.lang.Long"/>
+	<field name="ad_soyad" class="java.lang.String"/>
 	<field name="izin_turu" class="java.lang.String"/>
 	<field name="izin_gun" class="java.lang.Integer"/>
 	<field name="izin_saat" class="java.lang.Integer"/>
@@ -27,21 +26,6 @@ WHERE i.id = $P{id}]]>
 	<field name="personel_id" class="java.lang.Long"/>
 	<field name="izin_baslangic_tarihi" class="java.sql.Date"/>
 	<field name="izin_bitis_tarihi" class="java.sql.Date"/>
-	<field name="adi" class="java.lang.String"/>
-	<variable name="izinTuruAciklama" class="java.lang.String">
-		<variableExpression><![CDATA[$F{izin_turu} == 1L ? "Mazeret İzni" :
-$F{izin_turu} == 2L ? "Yıllık Ücretli İzin" :
-$F{izin_turu} == 3L ? "Analık İzni (Doğum Öncesi)" :
-$F{izin_turu} == 4L ? "Analık İzni (Doğum Sonrası)" :
-$F{izin_turu} == 5L ? "Ücretsiz İzin" :
-$F{izin_turu} == 6L ? "Sağlık İzni" :
-$F{izin_turu} == 7L ? "Babalık İzni" :
-$F{izin_turu} == 8L ? "Evlilik İzni" :
-$F{izin_turu} == 9L ? "Ölüm İzni" :
-$F{izin_turu} == 10L ? "Saatlik İzin" :
-$F{izin_turu} == 11L ? "Fazla Mesai" :
-"Bilinmeyen İzin"]]></variableExpression>
-	</variable>
 	<variable name="id" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -51,7 +35,7 @@ $F{izin_turu} == 11L ? "Fazla Mesai" :
 			<staticText>
 				<reportElement x="233" y="42" width="100" height="21" uuid="2a38d9c6-bde2-41c5-a84e-1fca74f154be"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12"/>
+					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[İZİN BELGESİ]]></text>
 			</staticText>
@@ -62,55 +46,58 @@ $F{izin_turu} == 11L ? "Fazla Mesai" :
 			<staticText>
 				<reportElement x="11" y="0" width="102" height="20" uuid="d94ef55f-5d3c-4340-9896-e1c3c63ca41b"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12"/>
+					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[TC Kimlik No:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="111" y="0" width="100" height="20" uuid="2c8d75dc-0dbc-4ba9-b57d-b4d56477df4a"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement x="132" y="0" width="100" height="20" uuid="2c8d75dc-0dbc-4ba9-b57d-b4d56477df4a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{tc}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="11" y="20" width="73" height="20" uuid="5744b2d1-88fa-4ee9-98bc-0e10474ffcb7"/>
-				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font size="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Ad Soyad:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="11" y="40" width="102" height="20" uuid="daf8ccab-d3fa-4ff8-a571-025f27ff5710"/>
-				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font size="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Cep Tel:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="111" y="40" width="100" height="20" uuid="b0d9e3c9-fa53-4bad-9711-001622f5d36d"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement x="132" y="40" width="100" height="20" uuid="b0d9e3c9-fa53-4bad-9711-001622f5d36d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{tel}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="11" y="60" width="100" height="20" uuid="03fd1034-5d16-491e-864c-1553a168fbe7"/>
-				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font size="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Adres:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="111" y="60" width="100" height="20" uuid="644ec354-97db-49df-9b37-ff0bab365b5e"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement x="132" y="60" width="100" height="20" uuid="644ec354-97db-49df-9b37-ff0bab365b5e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{adres}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="111" y="20" width="77" height="20" uuid="f7fdcde8-6495-4272-b102-f0844244dae2"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{adi}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="188" y="20" width="100" height="20" uuid="e22a5ee3-747b-4666-ade2-3249135f097f"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{soyadi}]]></textFieldExpression>
+				<reportElement x="132" y="20" width="100" height="20" uuid="5d9bdfe0-eeb4-41e7-90a4-d26974420be2"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ad_soyad}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -118,53 +105,59 @@ $F{izin_turu} == 11L ? "Fazla Mesai" :
 		<band height="82" splitType="Stretch">
 			<staticText>
 				<reportElement x="11" y="62" width="100" height="20" uuid="74daa438-b400-4096-85c8-fbfbaba160d4"/>
-				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font size="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[İzin Türü:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="111" y="60" width="218" height="20" uuid="4d0330b2-eb57-4ae2-b2c8-426f78d81026"/>
-				<textElement verticalAlignment="Middle">
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{izinTuruAciklama}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="11" y="0" width="100" height="20" uuid="9e3a6411-15f1-4c34-8fac-3ec721f3e82f"/>
-				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font size="12"/>
+				<reportElement x="11" y="0" width="121" height="20" uuid="9e3a6411-15f1-4c34-8fac-3ec721f3e82f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Başlangıç Zamanı:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="11" y="20" width="100" height="20" uuid="c2c42fae-cb77-4b43-b104-324d053fd8ac"/>
-				<textElement>
-					<font size="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Bitiş Zamanı:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="113" y="0" width="200" height="20" uuid="b44f8457-fbad-4f6b-9c3c-7f3627ab6979"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement x="132" y="0" width="200" height="20" uuid="b44f8457-fbad-4f6b-9c3c-7f3627ab6979"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{izin_baslangic_tarihi}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="111" y="20" width="100" height="20" uuid="70ba59be-fcbf-4e86-9bd2-69794c4d38f7"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement x="132" y="20" width="100" height="20" uuid="70ba59be-fcbf-4e86-9bd2-69794c4d38f7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{izin_bitis_tarihi}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="11" y="40" width="100" height="20" uuid="d9c31d94-cea7-4ff2-99c3-44969127f1b4"/>
-				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font size="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Sebebi:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="113" y="40" width="100" height="20" uuid="6790e64d-6ab7-487b-b841-ff47c52dc99c"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement x="132" y="40" width="100" height="20" uuid="6790e64d-6ab7-487b-b841-ff47c52dc99c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{sebep}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="132" y="60" width="205" height="20" uuid="5e19852b-f8d8-4155-9406-28ccc18ed51e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{izin_turu}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
@@ -173,40 +166,50 @@ $F{izin_turu} == 11L ? "Fazla Mesai" :
 			<staticText>
 				<reportElement x="0" y="57" width="465" height="23" uuid="4b114915-0233-4147-bf2d-c8768487537c"/>
 				<textElement verticalAlignment="Middle">
-					<font size="14"/>
+					<font fontName="Arial" size="14" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[İzne ayrılmasında sakınca yoktur.]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="344" y="80" width="100" height="20" uuid="a5c5a8c9-3ef7-4d0e-90d3-1aec145be687"/>
-				<textElement verticalAlignment="Middle"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{izni_veren}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="11" y="0" width="100" height="20" uuid="f2351821-d307-4f98-98d9-22cdf6e50d7f"/>
-				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font size="12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[İzin Süresi:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="111" y="0" width="21" height="20" uuid="6794c65c-b03a-4c35-ae06-1b10f284698b"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement x="132" y="0" width="21" height="20" uuid="6794c65c-b03a-4c35-ae06-1b10f284698b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{izin_gun}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="132" y="0" width="24" height="20" uuid="6b3ade91-abc5-46e2-ac98-1104d9153085"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement x="147" y="0" width="24" height="20" uuid="6b3ade91-abc5-46e2-ac98-1104d9153085"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				</textElement>
 				<text><![CDATA[gün]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="156" y="0" width="17" height="20" uuid="6c635ea4-ba51-4397-9712-353b32a1233e"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement x="166" y="0" width="17" height="20" uuid="6c635ea4-ba51-4397-9712-353b32a1233e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{izin_saat}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="173" y="0" width="28" height="20" uuid="184258a5-48f7-48ae-a501-a33db4658334"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement x="183" y="0" width="28" height="20" uuid="184258a5-48f7-48ae-a501-a33db4658334"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				</textElement>
 				<text><![CDATA[saat]]></text>
 			</staticText>
 		</band>

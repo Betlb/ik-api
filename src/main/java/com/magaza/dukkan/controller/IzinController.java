@@ -5,8 +5,6 @@ import com.magaza.dukkan.model.Personel;
 import com.magaza.dukkan.service.IzinService;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,7 +24,7 @@ public class IzinController {
 
 
     @PostMapping("/create")
-    public Izin create(@RequestBody Izin izin){
+    public ResponseEntity<?> create(@RequestBody Izin izin){
         return izinService.create(izin);
     }
 

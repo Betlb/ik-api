@@ -1,14 +1,13 @@
 package com.magaza.dukkan.service;
 
 
-import com.magaza.dukkan.model.Izin;
-import com.magaza.dukkan.model.Personel;
+import com.lowagie.text.pdf.BaseFont;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -34,7 +33,7 @@ public class JasperReportUtil {
 
 
     private static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/personelSistemi", "postgres", "1");
+        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/dukkandb", "postgres", "1");
     }
 
 

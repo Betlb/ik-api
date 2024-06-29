@@ -12,4 +12,5 @@ public interface PersonelRepository extends JpaRepository<Personel,Long> {
     Page<Personel> findAll(Pageable pageable);
 
     List<Personel> findByAdSoyadContainingIgnoreCase(String adSoyad);
+    List<Personel> findByAdSoyadStartingWithIgnoreCase(Pageable pageable,String adSoyad);
 }
