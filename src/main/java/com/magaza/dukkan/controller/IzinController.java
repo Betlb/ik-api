@@ -1,5 +1,6 @@
 package com.magaza.dukkan.controller;
 
+import com.magaza.dukkan.dto.PersonelWithIzinDetayDTO;
 import com.magaza.dukkan.model.Izin;
 import com.magaza.dukkan.model.Personel;
 import com.magaza.dukkan.service.IzinService;
@@ -52,11 +53,15 @@ public class IzinController {
 
 
     @GetMapping("/getPersoneller")
-    public List<Personel> getPersoneller(){
+    public List<PersonelWithIzinDetayDTO> getPersoneller(){
         return izinService.getPersoneller();
     }
     
 
+    @PostMapping("/getIzinsWithPersonelId")
+    public List<Izin> getIzinsWithPersonelId(@RequestBody Personel personel){
+        return izinService.getIzinsWithPersonelId(personel);
+    }
 
 
 

@@ -1,8 +1,15 @@
 package com.magaza.dukkan.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "izin", schema = "public")
 public class Izin {
@@ -10,6 +17,13 @@ public class Izin {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "izin_seq")
     @SequenceGenerator(name = "izin_seq", sequenceName = "izin_seq", allocationSize = 1)
     private Long id;
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     @Column(name = "sebep")
     private String sebep;
@@ -24,17 +38,33 @@ public class Izin {
     @Column(name = "izin_turu")
     private String izinTuru;
 
+
     @Column(name = "izin_baslangic_tarihi")
-    private Date izinBaslangicTarihi;
+    private Timestamp izinBaslangicTarihi;
+
 
     @Column(name = "izin_bitis_tarihi")
-    private Date izinBitisTarihi;
+    private Timestamp izinBitisTarihi;
 
     @Column(name = "izin_gun")
     private Integer izinGun;
 
-    @Column(name = "izin_saat")
-    private Integer izinSaat;
+    @Column(name = "hafta_tatili")
+    private Long haftaTatili;
+
+    @Column(name = "genel_tatil")
+    private Long genelTatil;
+
+    @Column(name = "izin_olusturulma_tarihi")
+    private Timestamp izinOlusturulmaTarihi;
+
+    @Column(name = "kurum_sicil_no")
+    private Long kurumSicilNo;
+
+    @Column(name = "toplam_yillik_izin_hakki")
+    private Long toplamYillikIzinHakki;
+
+
 
     public Long getId() {
         return id;
@@ -78,19 +108,19 @@ public class Izin {
     }
 
 
-    public Date getIzinBaslangicTarihi() {
+    public Timestamp getIzinBaslangicTarihi() {
         return izinBaslangicTarihi;
     }
 
-    public void setIzinBaslangicTarihi(Date izinBaslangicTarihi) {
+    public void setIzinBaslangicTarihi(Timestamp izinBaslangicTarihi) {
         this.izinBaslangicTarihi = izinBaslangicTarihi;
     }
 
-    public Date getIzinBitisTarihi() {
+    public Timestamp getIzinBitisTarihi() {
         return izinBitisTarihi;
     }
 
-    public void setIzinBitisTarihi(Date izinBitisTarihi) {
+    public void setIzinBitisTarihi(Timestamp izinBitisTarihi) {
         this.izinBitisTarihi = izinBitisTarihi;
     }
 
@@ -102,11 +132,44 @@ public class Izin {
         this.izinGun = izinGun;
     }
 
-    public Integer getIzinSaat() {
-        return izinSaat;
+
+    public Timestamp getIzinOlusturulmaTarihi() {
+        return izinOlusturulmaTarihi;
     }
 
-    public void setIzinSaat(Integer izinSaat) {
-        this.izinSaat = izinSaat;
+    public void setIzinOlusturulmaTarihi(Timestamp izinOlusturulmaTarihi) {
+        this.izinOlusturulmaTarihi = izinOlusturulmaTarihi;
+    }
+
+    public Long getKurumSicilNo() {
+        return kurumSicilNo;
+    }
+
+    public void setKurumSicilNo(Long kurumSicilNo) {
+        this.kurumSicilNo = kurumSicilNo;
+    }
+
+    public Long getHaftaTatili() {
+        return haftaTatili;
+    }
+
+    public void setHaftaTatili(Long haftaTatili) {
+        this.haftaTatili = haftaTatili;
+    }
+
+    public Long getGenelTatil() {
+        return genelTatil;
+    }
+
+    public void setGenelTatil(Long genelTatil) {
+        this.genelTatil = genelTatil;
+    }
+
+    public Long getToplamYillikIzinHakki() {
+        return toplamYillikIzinHakki;
+    }
+
+    public void setToplamYillikIzinHakki(Long toplamYillikIzinHakki) {
+        this.toplamYillikIzinHakki = toplamYillikIzinHakki;
     }
 }

@@ -2,12 +2,13 @@ package com.magaza.dukkan.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class MainController {
 
-    @GetMapping("/main/index.html")
+    @GetMapping("/")
     public String getIndexPage() {
-        return "index"; // Bu, resources/static/index.html dosyasına yönlendirecek
+        return "index"; // Bu, templates/index.html dosyasına yönlendirecek
     }
 }

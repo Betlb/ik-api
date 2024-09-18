@@ -16,7 +16,7 @@ public class UserService {
 
     public Boolean getLogin(String username, String password) {
 
-        if(username.equals("kullaniciadi")&&password.equals("1234")){
+        if(username.equals("admin")&&password.equals("eV2024.")){
             return true;
         }
        /* List<User> users = userRepository.getUserByUsernameEquals(username);

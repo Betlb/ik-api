@@ -21,17 +21,29 @@ public class KullaniciController {
 
     @GetMapping("/login")
     public Map<String, Object> getLogin(@RequestParam String userName, @RequestParam String password) {
-        //logini username sifre ile degilde..!!
         Map<String, Object> m = new HashMap<>();
         Boolean result = userService.getLogin(userName,password);
         if (result) {
-            List<User> user =  userService.getUserByUserName(userName);
-            if (user !=null){
-                m.put("user", user);//birden fazla?!
-            }
+            Map<String, Object> user = new HashMap<>();
+            user.put("id",1);
+            user.put("adi","Admin");
+            user.put("soyadi","User");
+
+            m.put("user", user);
             m.put("token","thisisJWTtoken");
             m.put("success","true");
             return m;
+            /*List<User> lstUser =  userService.getUserByUserName(userName);
+            if (lstUser !=null && lstUser.size() > 0){
+                m.put("user", lstUser.get(0));
+                m.put("token","thisisJWTtoken");
+                m.put("success","true");
+                return m;
+            } else {
+                m.put("success","false");
+                m.put("hata","Kullanici kodu veya parolasi hatali");
+                return m;
+            }*/
         } else {
             m.put("success","false");
             m.put("hata","Kullanici kodu veya parolasi hatali");

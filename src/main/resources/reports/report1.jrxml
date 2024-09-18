@@ -1,226 +1,867 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b6f81dfa-6071-4187-9b0d-b3168f0c331d">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="384"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0FFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#FFEFEF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="4f85650c-dba7-4ce1-a4f8-1801a57a45a6">
+		<parameter name="id" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[187]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT to_char(d.yil::date,'YYYY')::int as yil,
+       d.kullanilan_izin_hakki,
+       d.kalan_izin_hakki
+FROM yillik_izin_hakki_detay_snapshot as d
+WHERE exists(select 0
+             from izin as i
+             where d.personel_id = i.personel_id
+               and i.id = d.izin_id )
+  AND d.izin_id =  $P{id}]]>
+		</queryString>
+		<field name="yil" class="java.lang.Long"/>
+		<field name="kullanilan_izin_hakki" class="java.lang.Long"/>
+		<field name="kalan_izin_hakki" class="java.lang.Long"/>
+	</subDataset>
 	<parameter name="id" class="java.lang.Long"/>
 	<queryString>
-		<![CDATA[SELECT   p.tc, p.adres, p.tel,p.mail,p.mazeret_izin,p.yillik_izin,p.ad_soyad,
-i.izin_turu, i.izin_gun,i.izin_saat, i.sebep, i.izin_turu, i.izni_veren, i.personel_id, i.izin_baslangic_tarihi, i.izin_bitis_tarihi
-FROM public."personel" p
-JOIN izin i ON p.id = i.personel_id
-WHERE i.id = $P{id}]]>
+		<![CDATA[SELECT
+    p.tc,
+    p.adres,
+    p.tel,
+    p.mail,
+    p.mazeret_izin,
+    p.adi,
+    p.soyadi,
+    to_char(p.is_giris_tarihi, 'DD/MM/YYYY') as is_giris_tarihi,
+    p.gorev,
+    p.birim_ad,
+    i.toplam_yillik_izin_hakki,
+    i.izin_turu,
+    i.izin_gun,
+    i.sebep,
+    i.izin_turu,
+    i.izni_veren,
+    i.personel_id,
+    to_char(i.izin_baslangic_tarihi, 'DD/MM/YYYY') as izin_baslangic_tarihi,
+    to_char(i.izin_bitis_tarihi, 'DD/MM/YYYY') as izin_bitis_tarihi,
+    i.id,
+    to_char(i.izin_olusturulma_tarihi, 'DD/MM/YYYY') as izin_olusturulma_tarihi,
+    i.hafta_tatili,
+    i.genel_tatil,
+    i.kurum_sicil_no,
+    i.hafta_tatili,
+    i.genel_tatil
+FROM
+    public."personel" p
+JOIN
+    izin i ON p.id = i.personel_id
+WHERE
+    i.id = $P{id}]]>
 	</queryString>
 	<field name="tc" class="java.lang.String"/>
 	<field name="adres" class="java.lang.String"/>
 	<field name="tel" class="java.lang.String"/>
 	<field name="mail" class="java.lang.String"/>
 	<field name="mazeret_izin" class="java.lang.Long"/>
-	<field name="yillik_izin" class="java.lang.Long"/>
-	<field name="ad_soyad" class="java.lang.String"/>
+	<field name="adi" class="java.lang.String"/>
+	<field name="soyadi" class="java.lang.String"/>
+	<field name="is_giris_tarihi" class="java.lang.String"/>
+	<field name="gorev" class="java.lang.String"/>
+	<field name="birim_ad" class="java.lang.String"/>
+	<field name="toplam_yillik_izin_hakki" class="java.lang.Long"/>
 	<field name="izin_turu" class="java.lang.String"/>
 	<field name="izin_gun" class="java.lang.Integer"/>
-	<field name="izin_saat" class="java.lang.Integer"/>
 	<field name="sebep" class="java.lang.String"/>
 	<field name="izni_veren" class="java.lang.String"/>
 	<field name="personel_id" class="java.lang.Long"/>
-	<field name="izin_baslangic_tarihi" class="java.sql.Date"/>
-	<field name="izin_bitis_tarihi" class="java.sql.Date"/>
+	<field name="izin_baslangic_tarihi" class="java.lang.String"/>
+	<field name="izin_bitis_tarihi" class="java.lang.String"/>
+	<field name="id" class="java.lang.Long"/>
+	<field name="izin_olusturulma_tarihi" class="java.lang.String"/>
+	<field name="hafta_tatili" class="java.lang.Long"/>
+	<field name="genel_tatil" class="java.lang.Long"/>
+	<field name="kurum_sicil_no" class="java.lang.Long"/>
 	<variable name="id" class="java.lang.String"/>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
-	<title>
-		<band height="115" splitType="Stretch">
+	<summary>
+		<band height="676">
 			<staticText>
-				<reportElement x="233" y="42" width="100" height="21" uuid="2a38d9c6-bde2-41c5-a84e-1fca74f154be"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				<reportElement positionType="Float" x="25" y="176" width="87" height="20" uuid="d2203709-1926-4ebc-b35a-defe893218c0"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
 				</textElement>
-				<text><![CDATA[İZİN BELGESİ]]></text>
-			</staticText>
-		</band>
-	</title>
-	<pageHeader>
-		<band height="99" splitType="Stretch">
-			<staticText>
-				<reportElement x="11" y="0" width="102" height="20" uuid="d94ef55f-5d3c-4340-9896-e1c3c63ca41b"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[TC Kimlik No:]]></text>
+				<text><![CDATA[Görevi]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="132" y="0" width="100" height="20" uuid="2c8d75dc-0dbc-4ba9-b57d-b4d56477df4a"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				<reportElement positionType="Float" x="112" y="176" width="421" height="20" uuid="a78ec44d-a248-4e17-a97d-54d5468ee2cb"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{tc}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{gorev}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="11" y="20" width="73" height="20" uuid="5744b2d1-88fa-4ee9-98bc-0e10474ffcb7"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				<reportElement positionType="Float" x="25" y="196" width="87" height="20" uuid="3ab676b8-3aa2-4497-a39e-b3e2160478fd"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
 				</textElement>
-				<text><![CDATA[Ad Soyad:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="11" y="40" width="102" height="20" uuid="daf8ccab-d3fa-4ff8-a571-025f27ff5710"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[Cep Tel:]]></text>
+				<text><![CDATA[Birimi]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="132" y="40" width="100" height="20" uuid="b0d9e3c9-fa53-4bad-9711-001622f5d36d"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				<reportElement positionType="Float" x="112" y="196" width="421" height="20" uuid="437be3d4-0857-4d00-84ae-6b1d8ec62693"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{birim_ad}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="25" y="216" width="87" height="20" uuid="ae819ef1-5e26-4fc8-9a38-478e2fe5d082"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Adres]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="112" y="216" width="421" height="20" uuid="ef1e79b0-8f29-418b-bad4-7c8b6661a814"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{adres}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="25" y="236" width="87" height="20" uuid="e198ae7d-aa7c-41c4-af23-263c9eb10a07"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Tel:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="112" y="236" width="421" height="20" uuid="7ffe3397-82f3-4203-a7e9-939159a94710"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tel}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="11" y="60" width="100" height="20" uuid="03fd1034-5d16-491e-864c-1553a168fbe7"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[Adres:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="132" y="60" width="100" height="20" uuid="644ec354-97db-49df-9b37-ff0bab365b5e"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{adres}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="132" y="20" width="100" height="20" uuid="5d9bdfe0-eeb4-41e7-90a4-d26974420be2"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement positionType="Float" x="274" y="236" width="159" height="20" uuid="753678b3-e86c-4301-9c2d-e3750f182c03">
+					<printWhenExpression><![CDATA[$F{izin_turu}.equals("Yıllık İzin")]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
 					<font pdfEncoding="Cp1254"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{ad_soyad}]]></textFieldExpression>
-			</textField>
-		</band>
-	</pageHeader>
-	<columnHeader>
-		<band height="82" splitType="Stretch">
-			<staticText>
-				<reportElement x="11" y="62" width="100" height="20" uuid="74daa438-b400-4096-85c8-fbfbaba160d4"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[İzin Türü:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="11" y="0" width="121" height="20" uuid="9e3a6411-15f1-4c34-8fac-3ec721f3e82f"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[Başlangıç Zamanı:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="11" y="20" width="100" height="20" uuid="c2c42fae-cb77-4b43-b104-324d053fd8ac"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[Bitiş Zamanı:]]></text>
+				<text><![CDATA[Kullanabileceği İzin Hakkı]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="132" y="0" width="200" height="20" uuid="b44f8457-fbad-4f6b-9c3c-7f3627ab6979"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				<reportElement positionType="Float" x="433" y="236" width="100" height="20" uuid="1cb08171-32a1-4f6a-951b-7039fddaeb78">
+					<printWhenExpression><![CDATA[$F{izin_turu}.equals("Yıllık İzin")]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{toplam_yillik_izin_hakki} + $F{izin_gun}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="25" y="278" width="113" height="20" uuid="84fc3a06-5dcc-4e67-a1dc-0ff0556983ef"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[İzin Başlangıç Tarihi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="138" y="278" width="119" height="20" uuid="b54961e2-fecd-4807-9f09-291309bf2cc1"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[İzin Bitiş Tarihi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="257" y="278" width="118" height="20" uuid="e1ce3c4d-205e-41da-be42-60bfc461428b"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Göreve Başlama Tarihi]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="25" y="298" width="113" height="20" uuid="2ac5e93d-e494-4057-8dd0-62b832af06a0"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{izin_baslangic_tarihi}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="132" y="20" width="100" height="20" uuid="70ba59be-fcbf-4e86-9bd2-69794c4d38f7"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				<reportElement positionType="Float" x="139" y="298" width="118" height="20" uuid="0437c011-9a55-489b-a770-c19c78bcc8b7"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{izin_bitis_tarihi}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="11" y="40" width="100" height="20" uuid="d9c31d94-cea7-4ff2-99c3-44969127f1b4"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+			<textField>
+				<reportElement positionType="Float" x="257" y="298" width="118" height="20" uuid="f57d3973-512e-4de3-9ac5-3d9449654858"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
 				</textElement>
-				<text><![CDATA[Sebebi:]]></text>
+				<textFieldExpression><![CDATA[$F{is_giris_tarihi}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="25" y="318" width="232" height="20" uuid="77881d52-2330-4092-bd23-019eb44863d3"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Talep Edilen İzin Türü]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="132" y="40" width="100" height="20" uuid="6790e64d-6ab7-487b-b841-ff47c52dc99c"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{sebep}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="132" y="60" width="205" height="20" uuid="5e19852b-f8d8-4155-9406-28ccc18ed51e"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" pdfEncoding="Cp1254"/>
+				<reportElement positionType="Float" x="257" y="318" width="118" height="20" uuid="272ff5b7-abd2-4e85-a704-f32355746d27"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{izin_turu}]]></textFieldExpression>
 			</textField>
-		</band>
-	</columnHeader>
-	<detail>
-		<band height="115" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="57" width="465" height="23" uuid="4b114915-0233-4147-bf2d-c8768487537c"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="14" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				<reportElement positionType="Float" x="25" y="338" width="232" height="20" uuid="7c146d11-b01f-44e6-8410-f56a2436f615"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
 				</textElement>
-				<text><![CDATA[İzne ayrılmasında sakınca yoktur.]]></text>
+				<text><![CDATA[Talep Edilen İzin Gün]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="344" y="80" width="100" height="20" uuid="a5c5a8c9-3ef7-4d0e-90d3-1aec145be687"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{izni_veren}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="11" y="0" width="100" height="20" uuid="f2351821-d307-4f98-98d9-22cdf6e50d7f"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="12" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[İzin Süresi:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="132" y="0" width="21" height="20" uuid="6794c65c-b03a-4c35-ae06-1b10f284698b"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				<reportElement positionType="Float" x="257" y="338" width="118" height="20" uuid="1930215b-5447-4447-8b53-85fe6f4e5401"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{izin_gun}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="147" y="0" width="24" height="20" uuid="6b3ade91-abc5-46e2-ac98-1104d9153085"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				<reportElement positionType="Float" x="25" y="358" width="63" height="20" uuid="a25d1e7e-b2e9-433e-a203-3261ee9c076d"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
 				</textElement>
-				<text><![CDATA[gün]]></text>
+				<text><![CDATA[Hafta Tatili]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="166" y="0" width="17" height="20" uuid="6c635ea4-ba51-4397-9712-353b32a1233e"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				<reportElement positionType="Float" x="88" y="358" width="76" height="20" uuid="ef815039-6010-4788-9d68-c72b51f2fb9f"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{izin_saat}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{hafta_tatili}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="183" y="0" width="28" height="20" uuid="184258a5-48f7-48ae-a501-a33db4658334"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" pdfEncoding="Cp1254" isPdfEmbedded="true"/>
+				<reportElement positionType="Float" x="164" y="358" width="93" height="20" uuid="369ec610-0a79-4874-9860-28351e1608d8"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
 				</textElement>
-				<text><![CDATA[saat]]></text>
+				<text><![CDATA[Genel Tatil]]></text>
 			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="257" y="358" width="118" height="20" uuid="3600d0d1-13ea-4519-b601-49f0285c3ecd"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{genel_tatil}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="25" y="378" width="350" height="20" uuid="7e39ddb0-f72b-48e6-b7c8-ff612aefad56"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Yukarıda belirtildiği şekilde iznimi kullanmak istiyorum.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="375" y="278" width="158" height="120" uuid="8cf6fbf6-2d71-4acb-9acb-b2a984b4c235"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[.../.../20..
+İmza]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="25" y="256" width="508" height="22" uuid="06378ca6-cf6c-450c-9686-e1a9da195576"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[İzin Talebi]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table 3" style="table 2_TD" positionType="Float" stretchType="RelativeToBandHeight" x="25" y="418" width="508" height="56" isRemoveLineWhenBlank="true" uuid="1b917ad0-86ac-45cc-a971-2f433063e67a">
+					<printWhenExpression><![CDATA[$F{izin_turu}.equals("Yıllık İzin")]]></printWhenExpression>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 1" uuid="778359a6-6b42-4c95-90cb-352de90000ef">
+						<datasetParameter name="id">
+							<datasetParameterExpression><![CDATA[$P{id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="254" uuid="b2305210-9914-42e8-8ca6-57474c3c4d83">
+						<jr:tableHeader style="table 2_TD" height="22" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="22" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="649da187-7a31-46c2-8932-48722c4ae5c1"/>
+								<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<text><![CDATA[Kalan İzin Günü]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="33" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="1" width="254" height="32" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="0e46952a-a362-4b1d-b768-e693b45cdb6c"/>
+								<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+								<textElement>
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{yil} + " Yılından " + $F{kalan_izin_hakki} + " Gün izin hakkı vardır."]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="254" uuid="9b63877a-0bd3-4811-aeb4-e0036921bcac">
+						<jr:tableHeader style="table 2_TD" height="22" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="92" height="22" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="cb9defbd-05db-4e1b-aa26-be5baafaed49"/>
+								<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<text><![CDATA[Verilen İzin]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="33" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="3" width="254" height="30" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="36d8e47e-88a0-4799-91a8-7d28b9863fba"/>
+								<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+								<textElement>
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{yil} + " Yılından " + $F{kullanilan_izin_hakki} + " Gün izin verilmiştir."]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="25" y="398" width="508" height="20" isRemoveLineWhenBlank="true" uuid="f45fece8-f141-4087-a3c8-da700eb1aa63">
+					<printWhenExpression><![CDATA[$F{izin_turu}.equals("Yıllık İzin")]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[İzin Detayı]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="25" y="600" width="112" height="75" uuid="8145bbe2-2693-4598-b470-8f8ab4ca05a1"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[ONAY
+
+
+.../.../20...]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="421" y="600" width="112" height="75" uuid="3ac5a90d-8d08-4234-9a41-58906fcf06f8"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[ONAY
+
+
+.../.../20...]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="207" y="600" width="112" height="75" uuid="35b9eb5f-7d8a-4e93-b919-333963b19616"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[ONAY
+
+
+.../.../20...]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="25" y="514" width="508" height="66" uuid="64d42b79-54b0-41bc-82b9-a12259efd63a"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Justified">
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[	Düzenleyen]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="64" y="537" width="100" height="20" uuid="0b478da4-8fe5-4582-a93b-1c5adc2b699b"/>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{izni_veren}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="25" y="580" width="508" height="20" uuid="924fcfed-1559-44c8-8aae-2d95db4fccc7"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["İlgilinin belirtilen tarihler arasında " + $F{izin_turu} + " kullanmasında sakınca yoktur."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="25" y="474" width="292" height="20" uuid="b42bbd47-b7a5-4552-a222-133b51af835d"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Toplamda " + $F{izin_gun} + " gün " +$F{izin_turu} + " verilmiştir."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="39" uuid="f15b601d-efa8-4265-8737-b0e2db1b2487"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[T.C.
+Elazığ İl Özel İdaresi Personel A.Ş.
+İnsan Kaynakları ve Eğitim Müdürlüğü]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="25" y="136" width="508" height="20" uuid="c1959953-019d-4b24-a7cc-03975090c3eb"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Personel Bilgileri]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="25" y="156" width="87" height="20" uuid="21cc1297-828a-4611-ab5e-4360b94ca05c"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Adı Soyadı]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="25" y="84" width="182" height="20" uuid="70a77e46-5415-4965-b786-6c0c4ce95ce9"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Kurum Sicil No: " + $F{kurum_sicil_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="25" y="104" width="508" height="32" isRemoveLineWhenBlank="true" uuid="b9a80cee-ad8c-4574-9d07-2b51f8007acc">
+					<printWhenExpression><![CDATA[$F{izin_turu}.equals("Yıllık İzin")]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["     İş Kanunu ve Yıllık İzin Yönetmeliği Toplu İş Sözleşmesinin ilgili maddesine göre " + $F{izin_baslangic_tarihi} + " olmak üzere " + $F{izin_gun} + " gün Yıllık İzin verilmesini arz ederim."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="112" y="156" width="421" height="20" uuid="3a38b95b-2361-4b30-956d-1c8e732b9da2"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{adi} + " "+ $F{soyadi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="207" y="84" width="110" height="20" uuid="924e1c5e-371c-437a-83e1-b6439ef41121"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Kayıt No: " + $F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="317" y="84" width="216" height="20" uuid="ce1c9e52-8560-4265-8f78-3b931d4fd41d"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Tarih: " + $F{izin_olusturulma_tarihi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="417" y="474" width="116" height="20" uuid="63b9ddf3-fc7c-499e-8d57-28b4ecb56ff9"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Takvim günü: " + $F{izin_gun}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="317" y="474" width="100" height="20" uuid="78160954-dc03-48e3-9c84-92ffb93b1d45">
+					<printWhenExpression><![CDATA[$F{izin_turu}.equals("Yıllık İzin")]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Kalan izin hakkı: " + $F{toplam_yillik_izin_hakki}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="25" y="494" width="508" height="20" uuid="49063f05-1ac4-4698-be7c-7169d6f74cbd"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font pdfEncoding="Cp1254"/>
+				</textElement>
+				<text><![CDATA[Açıklama:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="25" y="64" width="508" height="20" uuid="f5d89677-4cec-4c97-ab6a-44966c3ecfa1"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{izin_turu} + " Formu"]]></textFieldExpression>
+			</textField>
 		</band>
-	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch"/>
-	</columnFooter>
-	<pageFooter>
-		<band height="36" splitType="Stretch"/>
-	</pageFooter>
-	<summary>
-		<band splitType="Stretch"/>
 	</summary>
 </jasperReport>

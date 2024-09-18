@@ -1,7 +1,12 @@
 package com.magaza.dukkan.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -12,6 +17,13 @@ public class Personel {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personel_seq")
     @SequenceGenerator(name = "personel_seq", sequenceName = "personel_seq", allocationSize = 1)
     private Long id;
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     @Column(name="adi")
     private String adi;
@@ -32,28 +44,20 @@ public class Personel {
 
 
     @Column(name = "is_giris_tarihi")
-    private Date isGirisTarihi;
+    private Timestamp isGirisTarihi;
 
     @Column(name = "mazeret_izin")
     private  Long mazeretIzin;
 
+    @Column(name = "gorev")
+    private String gorev;
 
-    @Column(name = "yillik_izin")
-    private  Long yillikIzin;
+    @Column(name = "birim_ad")
+    private String birimAd;
 
-    @Column(name = "fazla_mesai")
-    private Integer fazlaMesai;
+    @Column(name = "toplam_yillik_izin_hakki")
+    private  Long toplamYillikIzinHakki;
 
-    @Column(name = "ad_soyad")
-    private String adSoyad;
-
-    public String getAdSoyad() {
-        return adSoyad;
-    }
-
-    public void setAdSoyad(String adSoyad) {
-        this.adSoyad = adSoyad;
-    }
 
     public Long getId() {
         return id;
@@ -112,11 +116,11 @@ public class Personel {
     }
 
 
-    public Date getIsGirisTarihi() {
+    public Timestamp getIsGirisTarihi() {
         return isGirisTarihi;
     }
 
-    public void setIsGirisTarihi(Date isGirisTarihi) {
+    public void setIsGirisTarihi(Timestamp isGirisTarihi) {
         this.isGirisTarihi = isGirisTarihi;
     }
 
@@ -128,27 +132,28 @@ public class Personel {
         this.mazeretIzin = mazeretIzin;
     }
 
-    public Long getYillikIzin() {
-        return yillikIzin;
+    public String getGorev() {
+        return gorev;
     }
 
-    public void setYillikIzin(Long yillikIzin) {
-        this.yillikIzin = yillikIzin;
+    public void setGorev(String gorev) {
+        this.gorev = gorev;
     }
 
-    public Integer getFazlaMesai() {
-        return fazlaMesai;
+    public String getBirimAd() {
+        return birimAd;
     }
 
-    public void setFazlaMesai(Integer fazlaMesai) {
-        this.fazlaMesai = fazlaMesai;
+    public void setBirimAd(String birimAd) {
+        this.birimAd = birimAd;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-                " \"adi\":\"" + adi + "\"," +
-                " \"soyadi\":\"" + soyadi + "\"" +
-                '}';
+    public Long getToplamYillikIzinHakki() {
+        return toplamYillikIzinHakki;
     }
+
+    public void setToplamYillikIzinHakki(Long toplamYillikIzinHakki) {
+        this.toplamYillikIzinHakki = toplamYillikIzinHakki;
+    }
+
 }
