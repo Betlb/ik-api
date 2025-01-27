@@ -38,11 +38,11 @@ public class Izin {
     @Column(name = "izin_turu")
     private String izinTuru;
 
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
     @Column(name = "izin_baslangic_tarihi")
     private Timestamp izinBaslangicTarihi;
 
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
     @Column(name = "izin_bitis_tarihi")
     private Timestamp izinBitisTarihi;
 

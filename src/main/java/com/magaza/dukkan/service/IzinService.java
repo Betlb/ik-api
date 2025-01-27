@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 @Service
@@ -50,7 +52,8 @@ public class IzinService {
         PersonelWithIzinDetayDTO personelWithIzinDetayDTO= personelService.getPersonelWithIzinDetay((izin.getPersonelId()));
         Personel personel = personelWithIzinDetayDTO.getPersonel();
         List<YillikIzinHakkiDetay> yillikIzinHakkiDetay = personelWithIzinDetayDTO.getIzinDetaylar();
-        List<YillikIzinHakkiDetaySnapshot> snapshots = new ArrayList<>();
+
+        Map<Integer, Long> usedLeavePerYearMap = new HashMap<>();
 
         if (izin.getIzinTuru().equals("Yıllık İzin")) {
             if (personel.getToplamYillikIzinHakki() < izin.getIzinGun()) {
@@ -66,6 +69,8 @@ public class IzinService {
 
                     long kalanIzinHakki = detay.getKalanIzinHakki();
                     long kullanilanIzin = 0;
+                    int yil = LocalDateTime.ofInstant(detay.getYil().toInstant(), ZoneId.systemDefault()).getYear();
+
 
                     if (kalanIzinHakki >= izinGun) {
                         detay.setKalanIzinHakki(kalanIzinHakki - izinGun);
@@ -73,17 +78,16 @@ public class IzinService {
                         izinGun = 0;
                     } else {
                         detay.setKalanIzinHakki(Long.valueOf(0));
+                        kullanilanIzin = kalanIzinHakki;
                         izinGun -= kalanIzinHakki;
                     }
-                    yillikIzinHakkiDetayRepository.save(detay);
+                    usedLeavePerYearMap.put(yil, usedLeavePerYearMap.getOrDefault(yil, 0L) + kullanilanIzin);
 
-                    YillikIzinHakkiDetaySnapshot snapshot = new YillikIzinHakkiDetaySnapshot();
-                    snapshot.setPersonelId(personel.getId());
-                    snapshot.setYil(detay.getYil());  // Set the year
-                    snapshot.setKalanIzinHakki(detay.getKalanIzinHakki());
-                    snapshot.setYillikIzinHakki(detay.getYillikIzinHakki());
-                    snapshot.setKullanilanIzinHakki(kullanilanIzin);
-                    snapshots.add(snapshot);
+                    if (detay.getKalanIzinHakki() == 0) {
+                        yillikIzinHakkiDetayRepository.delete(detay);
+                    } else {
+                        yillikIzinHakkiDetayRepository.save(detay);
+                    }
                 }
 
                 // Update Personel's total leave entitlement
@@ -109,8 +113,21 @@ public class IzinService {
         newIzin.setToplamYillikIzinHakki(personel.getToplamYillikIzinHakki());
         Izin savedIzin = izinRepository.save(newIzin);
 
-        for (YillikIzinHakkiDetaySnapshot snapshot : snapshots) {
+        // Second loop: Create snapshots for each year and fill the map details
+        for (YillikIzinHakkiDetay detay : yillikIzinHakkiDetay) {
+            // Extract the year part from the Timestamp
+            int yil = LocalDateTime.ofInstant(detay.getYil().toInstant(), ZoneId.systemDefault()).getYear();
+
+            YillikIzinHakkiDetaySnapshot snapshot = new YillikIzinHakkiDetaySnapshot();
+            snapshot.setPersonelId(personel.getId());
+            snapshot.setYil(detay.getYil());  // Set the actual Timestamp as yil
+            snapshot.setKalanIzinHakki(detay.getKalanIzinHakki());  // Remaining leave for that year
+            snapshot.setYillikIzinHakki(detay.getYillikIzinHakki());  // Total leave for that year
+
+            // Get the used leave from the map
+            snapshot.setKullanilanIzinHakki(usedLeavePerYearMap.getOrDefault(yil, 0L));
             snapshot.setIzinId(savedIzin.getId());  // Set the saved izin's ID
+
             yillikIzinHakkiDetaySnapshotRepository.save(snapshot);  // Save the snapshot
         }
 
@@ -130,7 +147,7 @@ public class IzinService {
     }
 
 
-    public List<PersonelWithIzinDetayDTO> getPersoneller() {
+    public List<Personel> getPersoneller() {
         return personelService.getAllPersonelsWithIzinDetay();
     }
 

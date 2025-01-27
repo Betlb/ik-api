@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkangegitim=self.webpackChunkangegitim||[]).push([[592],{7292:(u,t,n)=>{n.d(t,{q:()=>e});var l=n(9808),_=n(7232),o=n(5e3);let e=(()=>{class a{}return a.\u0275fac=function(r){return new(r||a)},a.\u0275mod=o.oAB({type:a}),a.\u0275inj=o.cJS({imports:[l.ez,_.aw,_.aw]}),a})()}}]);

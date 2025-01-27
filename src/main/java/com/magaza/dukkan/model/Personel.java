@@ -1,5 +1,6 @@
 package com.magaza.dukkan.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -42,7 +43,7 @@ public class Personel {
     @Column(name = "mail")
     private  String mail;
 
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
     @Column(name = "is_giris_tarihi")
     private Timestamp isGirisTarihi;
 

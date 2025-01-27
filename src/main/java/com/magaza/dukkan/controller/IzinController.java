@@ -53,7 +53,7 @@ public class IzinController {
 
 
     @GetMapping("/getPersoneller")
-    public List<PersonelWithIzinDetayDTO> getPersoneller(){
+    public List<Personel> getPersoneller(){
         return izinService.getPersoneller();
     }
     

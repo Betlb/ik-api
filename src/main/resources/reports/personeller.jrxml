@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="personeller" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="575" leftMargin="10" rightMargin="10" topMargin="20" bottomMargin="20" uuid="62542f8b-9f12-436f-b27a-35148bd2be86">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="New Dataset 1" uuid="4ed550c0-f064-454e-b25e-321760560a68">
+		<parameter name="showPhoneNumber" class="java.lang.Boolean"/>
+		<parameter name="showAddress" class="java.lang.Boolean"/>
+		<parameter name="showUsedLeave" class="java.lang.Boolean"/>
+		<parameter name="showTask" class="java.lang.Boolean"/>
+		<parameter name="showUnit" class="java.lang.Boolean"/>
+		<parameter name="birim_ad" class="java.lang.String"/>
+		<parameter name="showEmail" class="java.lang.Boolean"/>
+		<parameter name="showIdentificationNumber" class="java.lang.String"/>
+		<parameter name="showFirstName" class="java.lang.String"/>
+		<parameter name="showLastName" class="java.lang.String"/>
+		<parameter name="showRemainingLeave" class="java.lang.Boolean"/>
+		<parameter name="showWorkStartDate" class="java.lang.Boolean"/>
+		<queryString>
+			<![CDATA[SELECT id, adi, soyadi, tc, adres, tel, mail, gorev, toplam_yillik_izin_hakki, mazeret_izin, birim_ad,
+       to_char(is_giris_tarihi, 'DD/MM/YYYY') as is_giris_tarihi
+FROM personel
+WHERE $P{birim_ad} IS NULL OR $P{birim_ad} = '' OR birim_ad = $P{birim_ad}
+ORDER BY adi, soyadi;]]>
+		</queryString>
+		<field name="id" class="java.lang.Long"/>
+		<field name="adi" class="java.lang.String"/>
+		<field name="soyadi" class="java.lang.String"/>
+		<field name="tc" class="java.lang.String"/>
+		<field name="adres" class="java.lang.String"/>
+		<field name="tel" class="java.lang.String"/>
+		<field name="mail" class="java.lang.String"/>
+		<field name="gorev" class="java.lang.String"/>
+		<field name="toplam_yillik_izin_hakki" class="java.lang.Long"/>
+		<field name="mazeret_izin" class="java.lang.Long"/>
+		<field name="birim_ad" class="java.lang.String"/>
+		<field name="is_giris_tarihi" class="java.lang.String"/>
+		<variable name="rowNumber" class="java.lang.Integer">
+			<variableExpression><![CDATA[new Integer($V{rowNumber} + 1)]]></variableExpression>
+			<initialValueExpression><![CDATA[0]]></initialValueExpression>
+		</variable>
+	</subDataset>
+	<parameter name="birim_ad" class="java.lang.String"/>
+	<parameter name="showPhoneNumber" class="java.lang.Boolean"/>
+	<parameter name="showAddress" class="java.lang.Boolean"/>
+	<parameter name="showTask" class="java.lang.Boolean"/>
+	<parameter name="showUnit" class="java.lang.Boolean"/>
+	<parameter name="showUsedLeave" class="java.lang.Boolean"/>
+	<parameter name="showEmail" class="java.lang.Boolean"/>
+	<parameter name="showIdentificationNumber" class="java.lang.Boolean"/>
+	<parameter name="showFirstName" class="java.lang.Boolean"/>
+	<parameter name="showLastName" class="java.lang.Boolean"/>
+	<parameter name="showRemainingLeave" class="java.lang.Boolean"/>
+	<parameter name="showWorkStartDate" class="java.lang.Boolean"/>
+	<queryString>
+		<![CDATA[SELECT id, adi, soyadi, tc, adres, tel, mail, gorev, toplam_yillik_izin_hakki, mazeret_izin, birim_ad,
+       to_char(is_giris_tarihi, 'DD/MM/YYYY') as is_giris_tarihi
+FROM personel
+WHERE $P{birim_ad} IS NULL OR $P{birim_ad} = '' OR birim_ad = $P{birim_ad}
+ORDER BY adi, soyadi;]]>
+	</queryString>
+	<field name="id" class="java.lang.Long"/>
+	<field name="adi" class="java.lang.String"/>
+	<field name="soyadi" class="java.lang.String"/>
+	<field name="tc" class="java.lang.String"/>
+	<field name="adres" class="java.lang.String"/>
+	<field name="tel" class="java.lang.String"/>
+	<field name="mail" class="java.lang.String"/>
+	<field name="gorev" class="java.lang.String"/>
+	<field name="toplam_yillik_izin_hakki" class="java.lang.Long"/>
+	<field name="mazeret_izin" class="java.lang.Long"/>
+	<field name="birim_ad" class="java.lang.String"/>
+	<field name="is_giris_tarihi" class="java.lang.String"/>
+	<variable name="rowNumber" class="java.lang.Integer" incrementType="Column">
+		<variableExpression><![CDATA[new Integer($V{rowNumber} + 1)]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<summary>
+		<band height="223" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" style="table" positionType="Float" isPrintRepeatedValues="false" x="0" y="36" width="575" height="187" uuid="a9b4e6e4-b54a-41be-a686-0b45c947e50a">
+					<property name="net.sf.jasperreports.export.pdf.tag.tr"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="New Dataset 1" uuid="7aaeb602-0c14-4b66-bf46-4aa8941cc3fc">
+						<datasetParameter name="birim_ad">
+							<datasetParameterExpression><![CDATA[$P{birim_ad}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="26" uuid="b1dd53b0-ef35-4b02-8f9e-4ed48241f115">
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="26" height="30" isPrintWhenDetailOverflows="true" uuid="55270f48-3418-4179-a239-5987daa5e5fa"/>
+								<textElement>
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="49" rowSpan="1">
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="26" height="49" isPrintWhenDetailOverflows="true" uuid="e1e1dc63-2530-4200-b852-bfdd5b8de53d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{rowNumber}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="64" uuid="9faf7ed3-370d-4f81-b01d-4fac815fb878">
+						<printWhenExpression><![CDATA[$P{showIdentificationNumber}.equals( new Boolean(true) )]]></printWhenExpression>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="64" height="30" isPrintWhenDetailOverflows="true" uuid="47355058-f1be-4096-b24e-6a07f419ed4b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<text><![CDATA[Kimlik Numarası]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="49" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="64" height="49" isPrintWhenDetailOverflows="true" uuid="3feba0be-1f23-4abb-86fb-c93543b11a9d"/>
+								<textElement verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{tc}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="1751fd17-9649-4d10-9d6f-d40ba2ecb8eb">
+						<printWhenExpression><![CDATA[$P{showFirstName}]]></printWhenExpression>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="41" height="30" isPrintWhenDetailOverflows="true" uuid="f9e5d813-b588-408a-841d-5661c2cb8844"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<text><![CDATA[Ad]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="49" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="41" height="49" isPrintWhenDetailOverflows="true" uuid="7ba48d53-5dda-4844-8fe8-07b60f42ea4e"/>
+								<textElement verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{adi}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="45" uuid="8728139e-5bb8-44d8-93b3-aa60ab6c6ddb">
+						<printWhenExpression><![CDATA[$P{showLastName}]]></printWhenExpression>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="45" height="30" isPrintWhenDetailOverflows="true" uuid="5f629186-a583-4263-bea6-b6220aad6105"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<text><![CDATA[Soyad]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="49" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="45" height="49" isPrintWhenDetailOverflows="true" uuid="2b8a8afa-7fe1-4509-8c4c-d5d8daf1453b"/>
+								<textElement verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{soyadi}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="65" uuid="36ae47f0-ca1d-4e96-bc9e-6ea3c37799ce">
+						<printWhenExpression><![CDATA[$P{showWorkStartDate}]]></printWhenExpression>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="65" height="30" isPrintWhenDetailOverflows="true" uuid="06e79545-fa4c-4e32-8e26-fd239cf873d3"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<text><![CDATA[İşe Başlangıç Tarihi]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="49" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="65" height="49" isPrintWhenDetailOverflows="true" uuid="f50a8fd9-65be-4dfb-b625-bf9cafc4f9e4"/>
+								<textElement verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{is_giris_tarihi}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="35" uuid="65fcce01-51f7-4166-9b41-91e2a0f3cb70">
+						<printWhenExpression><![CDATA[new Boolean($P{birim_ad}== null || $P{birim_ad}.isEmpty())]]></printWhenExpression>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="35" height="30" uuid="623b2d51-9053-4301-b56a-51b32e6a281a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<text><![CDATA[Birimi]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="49" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="35" height="49" uuid="9f90dd26-8dda-40ec-9b3d-8b3079eb2c2f"/>
+								<textElement verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{birim_ad}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="51" uuid="3eed89fd-c2b5-4eed-ab9a-a28c0ceb3901">
+						<printWhenExpression><![CDATA[$P{showTask}]]></printWhenExpression>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="51" height="30" isPrintWhenDetailOverflows="true" uuid="b9402591-631b-4eff-a804-afa35505df5b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<text><![CDATA[Görev]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="49" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="51" height="49" isPrintWhenDetailOverflows="true" uuid="c320ca72-fa20-45e9-8cd8-6432685b23af"/>
+								<textElement verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{gorev}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="37" uuid="3beac0cd-0199-4730-8d1e-f30bbddfe393">
+						<printWhenExpression><![CDATA[$P{showRemainingLeave}]]></printWhenExpression>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="37" height="30" isPrintWhenDetailOverflows="true" uuid="4a031f83-2223-43f8-91b8-fe0c63860bf2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<text><![CDATA[Kalan Yıllık İzin]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="49" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="37" height="49" isPrintWhenDetailOverflows="true" uuid="7e1ac5fe-6d18-4fde-814d-81ffa5fae7cf"/>
+								<textElement verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{toplam_yillik_izin_hakki}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="37" uuid="5e669bf1-3f53-46ca-9d95-89319444a341">
+						<printWhenExpression><![CDATA[$P{showUsedLeave}]]></printWhenExpression>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="37" height="30" isPrintWhenDetailOverflows="true" uuid="dacb6461-10ce-4ef2-985f-fece79539a1b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<text><![CDATA[Mazeret İzin]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="49" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="37" height="49" isPrintWhenDetailOverflows="true" uuid="4db8d186-02e0-4c43-b9f9-ed4ba139d927"/>
+								<textElement verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{mazeret_izin}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="cf1c8c12-166a-4e3d-b2c7-a4e170836f5c">
+						<printWhenExpression><![CDATA[$P{showEmail}]]></printWhenExpression>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="50" height="30" isPrintWhenDetailOverflows="true" uuid="b0997959-b7d3-48bd-92e8-cf8540db1f24"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<text><![CDATA[Mail]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="49" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="50" height="49" isPrintWhenDetailOverflows="true" uuid="6a17e1b5-90bf-4891-8272-cb90b420dc35"/>
+								<textElement verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{mail}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="62" uuid="82596a0a-8a23-4a4a-941c-dbf994fd17da">
+						<printWhenExpression><![CDATA[$P{showPhoneNumber}]]></printWhenExpression>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="62" height="30" isPrintWhenDetailOverflows="true" uuid="e29e75a7-ade4-4b2c-8ee4-c9e65d26eac6"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<text><![CDATA[Tel]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="49" rowSpan="1">
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="62" height="49" isPrintWhenDetailOverflows="true" uuid="15ad0b6c-4b31-4dd7-aab5-195f0be6ca25"/>
+								<textElement verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{tel}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="e82f1b22-2949-4636-819b-c718b26de363">
+						<printWhenExpression><![CDATA[$P{showAddress}]]></printWhenExpression>
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="60" height="30" isPrintWhenDetailOverflows="true" uuid="c6ef86da-9863-4b9e-8c55-a408d81a4355"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<text><![CDATA[Adres]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="49" rowSpan="1">
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+							<textField>
+								<reportElement positionType="Float" x="0" y="0" width="60" height="49" isPrintWhenDetailOverflows="true" uuid="2e015b7e-24dd-4720-95db-46e087ca66e2"/>
+								<textElement verticalAlignment="Middle">
+									<font pdfEncoding="Cp1254"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{adres}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<textField>
+				<reportElement x="0" y="0" width="575" height="36" uuid="f829d875-2186-4bd7-8051-2a8e4d81023c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" pdfEncoding="Cp1254"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{birim_ad}!= null && !$P{birim_ad}.isEmpty() ? $P{birim_ad} + " Birimi Personelleri" : "Tüm Personeller"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

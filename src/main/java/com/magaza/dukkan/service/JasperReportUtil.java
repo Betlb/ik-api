@@ -73,7 +73,7 @@ public class JasperReportUtil {
 
 
     private static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/dukkandb", "postgres", "1");
+        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/ikdb", "postgres", "1");
     }
 
 

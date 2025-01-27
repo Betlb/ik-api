@@ -1,14 +1,16 @@
 package com.magaza.dukkan.service;
 import com.magaza.dukkan.dto.PersonelWithIzinDetayDTO;
+import com.magaza.dukkan.model.Izin;
 import com.magaza.dukkan.model.Personel;
 import com.magaza.dukkan.model.YillikIzinHakkiDetay;
-import com.magaza.dukkan.repository.BirimRepository;
-import com.magaza.dukkan.repository.PersonelRepository;
-import com.magaza.dukkan.repository.YillikIzinHakkiDetayRepository;
+import com.magaza.dukkan.model.YillikIzinHakkiDetaySnapshot;
+import com.magaza.dukkan.repository.*;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,10 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,16 +33,27 @@ public class PersonelService {
     @Autowired
     BirimRepository birimRepository;
 
+    @Autowired
+    YillikIzinHakkiDetaySnapshotRepository yillikIzinHakkiDetaySnapshotRepository;
+
+    @Autowired
+    IzinRepository izinRepository;
+
+
 
     public Page<PersonelWithIzinDetayDTO> getPersonels(String birimAd, Pageable pageable) {
+        // Ensure sorting by 'adi' and 'soyadi'
+        Sort sort = Sort.by(Sort.Order.asc("adi"), Sort.Order.asc("soyadi"));
+        Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+
         Page<Personel> personels;
 
         if (birimAd != null && !birimAd.isEmpty()) {
-            // If birimAd is provided, filter by birim
-            personels = personelRepository.findByBirimAd(birimAd, pageable);
+            // If birimAd is provided, filter by birim and apply sorting via pageable
+            personels = personelRepository.findByBirimAd(birimAd, sortedPageable);
         } else {
-            // If birimAd is not provided, fetch all personnel
-            personels = personelRepository.findAll(pageable);
+            // If birimAd is not provided, fetch all personnel and apply sorting via pageable
+            personels = personelRepository.findAll(sortedPageable);
         }
 
         // Map the results to DTO with izin detaylar
@@ -55,6 +65,7 @@ public class PersonelService {
             return dto;
         });
     }
+
 
 
 
@@ -80,7 +91,7 @@ public class PersonelService {
         if (updatedPersonel.getTc() != null) personel1.setTc(updatedPersonel.getTc());
         // Check if the new birimAd exists in the Birim table
         if (updatedPersonel.getBirimAd() != null) {
-            List<String> existingBirimNames = birimRepository.findAllAd();
+            List<String> existingBirimNames = birimRepository.findAllAd(Sort.by(Sort.Order.asc("ad")));
 
             // Check if the list of birim names contains the updated person's birim name
             boolean birimExists = existingBirimNames.stream()
@@ -145,6 +156,19 @@ public class PersonelService {
             for (YillikIzinHakkiDetay detay : existingDetaylar) {
                 yillikIzinHakkiDetayRepository.delete(detay);
             }
+
+            List<YillikIzinHakkiDetaySnapshot> snapshots = yillikIzinHakkiDetaySnapshotRepository.findAllByPersonelId(personel.getId());
+            for (YillikIzinHakkiDetaySnapshot snapshot : snapshots) {
+                yillikIzinHakkiDetaySnapshotRepository.delete(snapshot);
+            }
+
+            // 3. Delete Izin records associated with the Personel
+            List<Izin> izins = izinRepository.findAllByPersonelId(personel.getId());
+            for (Izin izin : izins) {
+                izinRepository.delete(izin);
+            }
+
+            // 4. Delete the Personel itself
             personelRepository.delete(personel);
         }
     }
@@ -173,7 +197,7 @@ public class PersonelService {
         // Check if personel already exists
         Personel existingPersonel = personelRepository.findUserByTc(personel.getTc());
         if (existingPersonel != null) {
-            return ResponseEntity.status(409).body(new HashMap<String, String>() {{
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new HashMap<String, String>() {{
                 put("message", "User already exists!");
             }});
         }
@@ -181,18 +205,15 @@ public class PersonelService {
         // Check if the birimAd exists in the Birim table
         String birimAd = personel.getBirimAd();
         if (birimAd != null && !birimAd.isEmpty()) {
-            List<String> existingBirimNames = birimRepository.findAllAd();
+            List<String> existingBirimNames = birimRepository.findAllAd(Sort.by(Sort.Order.asc("ad")));
 
             // Check if the list of birim names contains the personel's birim name
             boolean birimExists = existingBirimNames.stream()
                     .anyMatch(existingBirimName -> existingBirimName.equalsIgnoreCase(birimAd));
 
             if (!birimExists) {
-                // Option 1: Add a new Birim if it does not exist
-                // birimService.addBirim(birimAd);
-
-                // Option 2: Return an error if birimAd does not exist
-                return ResponseEntity.status(400).body(new HashMap<String, String>() {{
+                // Return an error if birimAd does not exist
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new HashMap<String, String>() {{
                     put("message", "Birim not found!");
                 }});
             }
@@ -232,6 +253,17 @@ public class PersonelService {
             yillikIzinHakkiDetayRepository.deleteAll(izinDetaylar);
         }
 
+        List<YillikIzinHakkiDetaySnapshot> snapshots = yillikIzinHakkiDetaySnapshotRepository.findAllByPersonelId(personel.getId());
+        if (!snapshots.isEmpty()) {
+            yillikIzinHakkiDetaySnapshotRepository.deleteAll(snapshots);
+        }
+
+        // 3. Delete Izin records associated with the Personel
+        List<Izin> izins = izinRepository.findAllByPersonelId(personel.getId());
+        if (!izins.isEmpty()) {
+            izinRepository.deleteAll(izins);
+        }
+
         // Delete the Personel
         personelRepository.deleteById(id);
 
@@ -239,17 +271,10 @@ public class PersonelService {
     }
 
 
-    public List<PersonelWithIzinDetayDTO> getAllPersonelsWithIzinDetay() {
-        List<Personel> personels = personelRepository.findAll();
+    public List<Personel> getAllPersonelsWithIzinDetay() {
+        List<Personel> personels = personelRepository.findAll(Sort.by(Sort.Order.asc("adi"), Sort.Order.asc("soyadi")));
 
-        // Map each Personel to PersonelWithIzinDetayDTO
-        return personels.stream().map(personel -> {
-            List<YillikIzinHakkiDetay> izinDetaylar = yillikIzinHakkiDetayRepository.findByPersonelId(personel.getId());
-            PersonelWithIzinDetayDTO dto = new PersonelWithIzinDetayDTO();
-            dto.setPersonel(personel);
-            dto.setIzinDetaylar(izinDetaylar);
-            return dto;
-        }).collect(Collectors.toList());
+        return personels;
     }
 
 

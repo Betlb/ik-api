@@ -3,6 +3,7 @@ package com.magaza.dukkan.service;
 import com.magaza.dukkan.model.Birim;
 import com.magaza.dukkan.repository.BirimRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class BirimService {
     }
 
     public List<String> getAllBirims() {
-        return birimRepository.findAllAd();
+        return birimRepository.findAllAd(Sort.by(Sort.Order.asc("ad")));
     }
 
     public Birim addBirim(String ad) {
