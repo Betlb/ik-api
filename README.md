@@ -1,43 +1,42 @@
-Personel Yönetim Sistemi
-Bu proje, iklar (yani yöneticiler ya da insan kaynakları personelleri) tarafından kullanılabilecek şekilde tasarlanmış, kullanıcı girişi destekleyen bir personel yönetim sistemidir. Sistem, personel ve izin yönetimini kolaylaştırmak amacıyla çeşitli fonksiyonlar sunar.
+Personnel Management System
+This project is a personnel management system designed to be used by administrators (such as HR staff or managers) with a secure user login mechanism. The system provides various features to simplify personnel and leave management.
 
-Özellikler
-👤 Kullanıcı Girişi
-Sisteme sadece yetkili kullanıcılar giriş yapabilir.
+Features
+User Authentication
+Only authorized users can log in to the system.
 
-👥 Personel Yönetimi
-Ekleme / Silme / Güncelleme: Personeller kolayca sisteme eklenebilir, düzenlenebilir ve silinebilir.
+Personnel Management
+Add / Delete / Update: Personnel records can be easily added, updated, or removed from the system.
 
-Listeleme: Tüm personeller görüntülenebilir.
+View All: A list of all personnel can be displayed.
 
-Birim Bazlı Listeleme: Personeller birimlerine göre listelenebilir.
+Filter by Department: Personnel can be listed based on their assigned department.
 
-PDF Raporlama: Tüm personeller ya da seçili birimlerin personelleri belirli özellikler baz alınarak PDF olarak raporlanabilir.
+PDF Reporting: Reports in PDF format can be generated for all personnel or by department, based on selected attributes.
 
-📅 İzin Yönetimi
-İzin Girişi: Personeller için izin eklenebilir.
+Leave Management
+Leave Entry: Leaves can be added for personnel.
 
-İzin PDF: Eklenen izinlerin PDF çıktısı alınabilir.
+Leave PDF Export: Leave data can be exported as PDF reports.
 
-İzin Sınırı Kontrolü: Her personele tanımlı izin hakkı doğrultusunda, izin verilmeden önce kalan izin kontrolü yapılır. İzin hakkı aşılıyorsa izin verilmez.
+Leave Limit Control: Each employee has a defined leave quota. The system checks remaining leave before approval. If the limit is exceeded, new leave cannot be granted.
 
-Geçmiş İzin Görüntüleme: Daha önce verilen izinler ihtiyaç halinde görüntülenebilir.
+Leave History: Previously granted leaves can be viewed when needed.
 
-🏢 Birim Yönetimi
-Yeni birimler sisteme eklenebilir.
+Department Management
+New departments can be added to the system.
 
 Demo
-Uygulamanın canlı demosuna aşağıdaki bağlantıdan ulaşabilirsiniz:
-🔗 Demo Linki 
-https://drive.google.com/file/d/1QisdDXZczQOPOjd4m56JYgyDoSJaOUCZ/view?usp=sharing 
+You can view a live demonstration of the application via the link below:
+🔗 View Demo
 
-Geliştirici Notları
+Developer Notes
 Backend: Spring Boot (Java)
 
 Frontend: Angular
 
-Veritabanı: PostgreSQL
+Database: PostgreSQL
 
-PDF Raporlama: iReport (JasperReports)
+PDF Reporting: iReport (JasperReports)
 
-Katmanlı mimari (controller-service-repository)
+Architecture: Layered structure (Controller – Service – Repository)
